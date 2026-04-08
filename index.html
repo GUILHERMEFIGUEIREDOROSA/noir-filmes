@@ -917,12 +917,56 @@
     .ptab { flex: 1; text-align: center; padding: 12px 16px; }
   }
 
+  /* WHATSAPP FLOAT */
+  .whatsapp-float {
+    position: fixed;
+    bottom: 32px; right: 32px;
+    z-index: 9990;
+    display: flex; align-items: center; gap: 10px;
+    background: #25D366;
+    color: #fff;
+    text-decoration: none;
+    padding: 14px 22px 14px 18px;
+    border-radius: 50px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 24px rgba(37,211,102,0.35);
+    transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s, padding 0.3s;
+    overflow: hidden;
+    max-width: 220px;
+    animation: wppPulse 2.5s ease-in-out infinite;
+  }
+  .whatsapp-float svg {
+    width: 22px; height: 22px;
+    flex-shrink: 0;
+  }
+  .whatsapp-float span {
+    white-space: nowrap;
+  }
+  .whatsapp-float:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 8px 32px rgba(37,211,102,0.5);
+  }
+  @keyframes wppPulse {
+    0%, 100% { box-shadow: 0 4px 24px rgba(37,211,102,0.35); }
+    50% { box-shadow: 0 4px 32px rgba(37,211,102,0.6); }
+  }
+  @media (max-width: 900px) {
+    .whatsapp-float { bottom: 20px; right: 20px; padding: 13px 18px 13px 14px; font-size: 10px; }
+  }
+
   /* FADE IN */
   .fade-in {
     opacity: 0; transform: translateY(30px);
     transition: opacity 0.8s ease, transform 0.8s ease;
   }
   .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* Fallback: se JS não rodar, mostra tudo */
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in { opacity: 1; transform: none; }
+  }
 
   /* MOBILE */
   @media (max-width: 900px) {
@@ -954,6 +998,16 @@
 <!-- CURSOR -->
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/5522988028581?text=Olá!%20Gostaria%20de%20solicitar%20um%20orçamento%20para%20a%20NOIR%20FILMES." 
+   target="_blank" class="whatsapp-float" title="Solicitar orçamento via WhatsApp">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.116 1.527 5.845L.057 23.743a.5.5 0 0 0 .625.601l6.076-1.595A11.954 11.954 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.853 0-3.585-.504-5.072-1.381l-.362-.214-3.754.985.999-3.648-.235-.374A9.953 9.953 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+  </svg>
+  <span>Solicitar Orçamento</span>
+</a>
 
 <!-- NAV -->
 <nav id="navbar">
@@ -1238,7 +1292,7 @@
         <div class="plan-price">
           <p class="price-label">Investimento mensal</p>
           <div class="price-value">
-            <span class="price-prefix">R$</span>467<span style="font-size:28px">,50</span><span class="price-period">/mês</span>
+            <span class="price-prefix">R$</span>549<span style="font-size:28px">,99</span><span class="price-period">/mês</span>
           </div>
         </div>
         <a href="#contato" class="plan-cta">Contratar agora</a>
@@ -1263,7 +1317,7 @@
         <div class="plan-price">
           <p class="price-label">Investimento mensal</p>
           <div class="price-value">
-            <span class="price-prefix">R$</span>722<span style="font-size:28px">,50</span><span class="price-period">/mês</span>
+            <span class="price-prefix">R$</span>849<span style="font-size:28px">,99</span><span class="price-period">/mês</span>
           </div>
         </div>
         <a href="#contato" class="plan-cta">Contratar agora</a>
@@ -1287,7 +1341,7 @@
         <div class="plan-price">
           <p class="price-label">Investimento mensal</p>
           <div class="price-value">
-            <span class="price-prefix">R$</span>1.275<span style="font-size:28px">,00</span><span class="price-period">/mês</span>
+            <span class="price-prefix">R$</span>1.499<span style="font-size:28px">,99</span><span class="price-period">/mês</span>
           </div>
         </div>
         <a href="#contato" class="plan-cta">Contratar agora</a>
@@ -1309,7 +1363,7 @@
         <div class="avulso-left">
           <p class="avulso-name">BÁSICO</p>
           <div class="avulso-price-box">
-            <p class="avulso-price"><span class="ap">R$</span>467<span class="ap">,42</span></p>
+            <p class="avulso-price"><span class="ap">R$</span>549<span class="ap">,99</span></p>
           </div>
         </div>
         <div class="avulso-right">
@@ -1326,7 +1380,7 @@
         <div class="avulso-left">
           <p class="avulso-name">INTERMEDIÁRIO</p>
           <div class="avulso-price-box">
-            <p class="avulso-price"><span class="ap">R$</span>637<span class="ap">,49</span></p>
+            <p class="avulso-price"><span class="ap">R$</span>749<span class="ap">,99</span></p>
           </div>
         </div>
         <div class="avulso-right">
@@ -1344,7 +1398,7 @@
         <div class="avulso-left">
           <p class="avulso-name">AVANÇADO</p>
           <div class="avulso-price-box">
-            <p class="avulso-price"><span class="ap">R$</span>977<span class="ap">,42</span></p>
+            <p class="avulso-price"><span class="ap">R$</span>1.149<span class="ap">,99</span></p>
           </div>
         </div>
         <div class="avulso-right">
@@ -1564,8 +1618,13 @@
   // FADE IN
   const observer = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.1 });
+  }, { threshold: 0 });
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Fallback: garantir visibilidade após 1s mesmo sem observer
+  setTimeout(() => {
+    document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
+  }, 800);
 
   // PRICING TABS
   function switchTab(tab) {
@@ -1594,4 +1653,14 @@
   // FORM SUBMIT
   document.querySelector('.form-submit').addEventListener('click', function() {
     this.textContent = 'Mensagem Enviada ✓';
-    this.s
+    this.style.background = '#2a7a2a';
+    this.style.color = '#fff';
+    setTimeout(() => {
+      this.textContent = 'Enviar Mensagem';
+      this.style.background = '';
+      this.style.color = '';
+    }, 3000);
+  });
+</script>
+</body>
+</html>
