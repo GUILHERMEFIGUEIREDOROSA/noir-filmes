@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOIR FILMES — Produtora Audiovisual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #050505;
+    --dark: #0d0d0d;
+    --mid: #1a1a1a;
+    --gold: #c9a84c;
+    --gold-light: #e2c97e;
+    --cream: #f0ead8;
+    --white: #faf8f4;
+    --grey: #7a7a7a;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease, width 0.3s, height 0.3s, background 0.3s;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.12s ease, width 0.3s, height 0.3s, opacity 0.3s;
+    opacity: 0.6;
+  }
+  .cursor.hover { width: 16px; height: 16px; }
+  .cursor-ring.hover { width: 56px; height: 56px; opacity: 0.3; }
+
+  /* GRAIN OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    pointer-events: none;
+    z-index: 9997;
+    animation: grainShift 0.5s steps(2) infinite;
+  }
+  @keyframes grainShift {
+    0% { transform: translate(0,0); }
+    25% { transform: translate(-2%, -2%); }
+    50% { transform: translate(2%, 1%); }
+    75% { transform: translate(-1%, 3%); }
+    100% { transform: translate(1%, -1%); }
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; width: 100%;
+    z-index: 1000;
+    padding: 28px 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(5,5,5,0.95) 0%, transparent 100%);
+    transition: padding 0.4s;
+  }
+  nav.scrolled {
+    padding: 18px 60px;
+    background: rgba(5,5,5,0.97);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 6px;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    color: var(--grey);
+    text-decoration: none;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    font-weight: 500;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #050505 0%, #111111 40%, #0a0a08 100%);
+  }
+  .hero-lines {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+  .hero-vignette {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 30%, rgba(5,5,5,0.8) 100%);
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center;
+    animation: heroReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  @keyframes heroReveal {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-eyebrow {
+    font-size: 10px;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    font-weight: 500;
+    animation: heroReveal 1.4s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(80px, 16vw, 200px);
+    line-height: 0.88;
+    letter-spacing: -2px;
+    color: var(--white);
+    animation: heroReveal 1.4s 0.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .hero-title .gold-word { color: var(--gold); }
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(16px, 2.5vw, 26px);
+    color: var(--cream);
+    margin-top: 16px;
+    opacity: 0.7;
+    letter-spacing: 2px;
+    animation: heroReveal 1.4s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .hero-cta {
+    margin-top: 52px;
+    display: flex; gap: 20px; justify-content: center;
+    animation: heroReveal 1.4s 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .btn-primary {
+    padding: 14px 40px;
+    background: var(--gold);
+    color: var(--black);
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline {
+    padding: 14px 40px;
+    border: 1px solid rgba(201,168,76,0.5);
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 500;
+    transition: border-color 0.3s, transform 0.2s, background 0.3s;
+  }
+  .btn-outline:hover { border-color: var(--gold); background: rgba(201,168,76,0.08); transform: translateY(-2px); }
+  .hero-scroll {
+    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    animation: heroReveal 1.4s 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .hero-scroll span {
+    font-size: 8px; letter-spacing: 4px; text-transform: uppercase; color: var(--grey);
+  }
+  .scroll-line {
+    width: 1px; height: 50px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.2); }
+  }
+
+  /* SECTION BASE */
+  section { padding: 120px 60px; }
+  .section-label {
+    font-size: 9px; letter-spacing: 5px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px; font-weight: 500;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(42px, 6vw, 80px);
+    line-height: 1;
+    letter-spacing: 1px;
+    color: var(--white);
+  }
+  .section-divider {
+    width: 60px; height: 1px;
+    background: var(--gold);
+    margin: 28px 0;
+  }
+  .section-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(17px, 2vw, 22px);
+    line-height: 1.8;
+    color: rgba(240,234,216,0.75);
+    max-width: 540px;
+  }
+
+  /* ABOUT */
+  .about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    background: var(--dark);
+  }
+  .about-visual {
+    position: relative;
+    height: 520px;
+  }
+  .about-frame {
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(201,168,76,0.2);
+    background: var(--mid);
+    overflow: hidden;
+  }
+  .about-frame::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(201,168,76,0.05) 0%, transparent 60%, rgba(201,168,76,0.03) 100%);
+  }
+  .film-strip {
+    position: absolute;
+    top: 20px; left: 20px; right: 20px; bottom: 20px;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .film-row {
+    flex: 1;
+    background: rgba(201,168,76,0.04);
+    border: 1px solid rgba(201,168,76,0.08);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: rgba(201,168,76,0.2);
+  }
+  .about-corner {
+    position: absolute;
+    width: 24px; height: 24px;
+    border-color: var(--gold);
+    border-style: solid;
+    border-width: 0;
+  }
+  .about-corner.tl { top: -8px; left: -8px; border-top-width: 2px; border-left-width: 2px; }
+  .about-corner.tr { top: -8px; right: -8px; border-top-width: 2px; border-right-width: 2px; }
+  .about-corner.bl { bottom: -8px; left: -8px; border-bottom-width: 2px; border-left-width: 2px; }
+  .about-corner.br { bottom: -8px; right: -8px; border-bottom-width: 2px; border-right-width: 2px; }
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 40px;
+  }
+  .stat {
+    border-left: 2px solid var(--gold);
+    padding-left: 16px;
+  }
+  .stat-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-top: 4px;
+  }
+
+  /* SERVICES */
+  .services { background: var(--black); }
+  .services-header { text-align: center; margin-bottom: 70px; }
+  .services-header .section-divider { margin: 28px auto; }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .service-card {
+    background: var(--dark);
+    padding: 50px 40px;
+    border: 1px solid rgba(255,255,255,0.04);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), border-color 0.4s;
+    cursor: none;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(201,168,76,0.06) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .service-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-6px); }
+  .service-card:hover::before { opacity: 1; }
+  .service-icon {
+    font-size: 32px;
+    margin-bottom: 24px;
+    display: block;
+  }
+  .service-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px;
+    color: rgba(201,168,76,0.1);
+    position: absolute;
+    top: 16px; right: 24px;
+    line-height: 1;
+    transition: color 0.4s;
+  }
+  .service-card:hover .service-number { color: rgba(201,168,76,0.2); }
+  .service-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 1px;
+    color: var(--white);
+    margin-bottom: 14px;
+  }
+  .service-desc {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--grey);
+  }
+  .service-line {
+    width: 30px; height: 1px;
+    background: var(--gold);
+    margin-top: 28px;
+    transition: width 0.4s;
+  }
+  .service-card:hover .service-line { width: 60px; }
+
+  /* PORTFOLIO */
+  .portfolio { background: var(--dark); }
+  .portfolio-header { margin-bottom: 60px; }
+  .portfolio-filter {
+    display: flex; gap: 24px; margin-top: 32px;
+  }
+  .filter-btn {
+    background: none; border: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--grey);
+    cursor: none; padding: 6px 0;
+    border-bottom: 1px solid transparent;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .filter-btn.active, .filter-btn:hover { color: var(--gold); border-bottom-color: var(--gold); }
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: 260px;
+    gap: 6px;
+    margin-top: 40px;
+  }
+  .portfolio-item {
+    position: relative;
+    overflow: hidden;
+    background: var(--mid);
+    border: 1px solid rgba(255,255,255,0.04);
+    cursor: none;
+  }
+  .portfolio-item:nth-child(1) { grid-column: span 5; grid-row: span 2; }
+  .portfolio-item:nth-child(2) { grid-column: span 4; }
+  .portfolio-item:nth-child(3) { grid-column: span 3; }
+  .portfolio-item:nth-child(4) { grid-column: span 3; }
+  .portfolio-item:nth-child(5) { grid-column: span 4; }
+  .portfolio-item:nth-child(6) { grid-column: span 5; }
+  .portfolio-bg {
+    position: absolute; inset: 0;
+    transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .portfolio-item:hover .portfolio-bg { transform: scale(1.06); }
+  .portfolio-gradient-1 { background: linear-gradient(135deg, #1a1008 0%, #2c1f00 50%, #1a1008 100%); }
+  .portfolio-gradient-2 { background: linear-gradient(135deg, #080810 0%, #0f0f28 50%, #080810 100%); }
+  .portfolio-gradient-3 { background: linear-gradient(135deg, #100808 0%, #1e0808 50%, #100808 100%); }
+  .portfolio-gradient-4 { background: linear-gradient(135deg, #080d10 0%, #0a1520 50%, #080d10 100%); }
+  .portfolio-gradient-5 { background: linear-gradient(135deg, #0d0810 0%, #1a0a20 50%, #0d0810 100%); }
+  .portfolio-gradient-6 { background: linear-gradient(135deg, #080a10 0%, #0d1428 50%, #080a10 100%); }
+  .portfolio-icon-bg {
+    font-size: 60px;
+    opacity: 0.12;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: -4px;
+    color: var(--gold);
+  }
+  .portfolio-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(5,5,5,0.95) 0%, rgba(5,5,5,0.2) 60%, transparent 100%);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 28px;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+  .portfolio-tag {
+    font-size: 8px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 6px;
+  }
+  .portfolio-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-style: italic;
+    color: var(--white);
+  }
+  .portfolio-play {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    width: 52px; height: 52px;
+    border: 1px solid rgba(201,168,76,0.6);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s, transform 0.4s;
+  }
+  .portfolio-play::after {
+    content: '';
+    width: 0; height: 0;
+    border-style: solid;
+    border-width: 8px 0 8px 14px;
+    border-color: transparent transparent transparent var(--gold);
+    margin-left: 4px;
+  }
+  .portfolio-item:hover .portfolio-play { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+
+  /* PROCESS */
+  .process { background: var(--black); }
+  .process-header { text-align: center; margin-bottom: 80px; }
+  .process-header .section-divider { margin: 28px auto; }
+  .process-steps {
+    display: flex;
+    gap: 0;
+    position: relative;
+  }
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 32px; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(201,168,76,0.4), transparent);
+  }
+  .process-step {
+    flex: 1;
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; padding: 0 20px;
+    position: relative;
+  }
+  .step-dot {
+    width: 64px; height: 64px;
+    border: 1px solid rgba(201,168,76,0.5);
+    border-radius: 50%;
+    background: var(--dark);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 28px;
+    position: relative; z-index: 1;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--gold);
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .process-step:hover .step-dot { background: rgba(201,168,76,0.1); border-color: var(--gold); }
+  .step-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px; letter-spacing: 1px;
+    color: var(--white); margin-bottom: 10px;
+  }
+  .step-desc {
+    font-size: 12px; line-height: 1.7;
+    color: var(--grey); max-width: 160px;
+  }
+
+  /* TESTIMONIALS */
+  .testimonials {
+    background: var(--dark);
+    position: relative;
+    overflow: hidden;
+  }
+  .testimonials::before {
+    content: '"';
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 600px;
+    color: rgba(201,168,76,0.025);
+    position: absolute;
+    top: -80px; left: -40px;
+    line-height: 1;
+    pointer-events: none;
+  }
+  .testimonials-header { text-align: center; margin-bottom: 70px; position: relative; }
+  .testimonials-header .section-divider { margin: 28px auto; }
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .testimonial-card {
+    background: var(--black);
+    border: 1px solid rgba(201,168,76,0.1);
+    padding: 40px;
+    position: relative;
+    transition: border-color 0.3s;
+  }
+  .testimonial-card:hover { border-color: rgba(201,168,76,0.3); }
+  .testimonial-stars {
+    display: flex; gap: 4px; margin-bottom: 20px;
+  }
+  .star { color: var(--gold); font-size: 14px; }
+  .testimonial-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.7;
+    color: rgba(240,234,216,0.8);
+    margin-bottom: 28px;
+  }
+  .testimonial-author {
+    display: flex; align-items: center; gap: 14px;
+  }
+  .author-avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--mid);
+    border: 1px solid rgba(201,168,76,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    color: var(--gold);
+  }
+  .author-name {
+    font-size: 12px; font-weight: 500;
+    color: var(--white); letter-spacing: 1px;
+  }
+  .author-event {
+    font-size: 10px; color: var(--grey);
+    letter-spacing: 1px; margin-top: 2px;
+  }
+
+  /* CONTACT */
+  .contact { background: var(--black); }
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .contact-info { }
+  .contact-details { margin-top: 50px; display: flex; flex-direction: column; gap: 24px; }
+  .contact-item {
+    display: flex; gap: 18px; align-items: flex-start;
+  }
+  .contact-icon {
+    width: 40px; height: 40px;
+    border: 1px solid rgba(201,168,76,0.3);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 16px;
+    color: var(--gold);
+    transition: background 0.3s;
+  }
+  .contact-item:hover .contact-icon { background: rgba(201,168,76,0.1); }
+  .contact-item-label {
+    font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 4px;
+  }
+  .contact-item-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; color: var(--cream);
+  }
+  .contact-form { }
+  .form-group { margin-bottom: 24px; }
+  .form-group label {
+    display: block;
+    font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--grey); margin-bottom: 10px;
+  }
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    background: var(--dark);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--white);
+    padding: 14px 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.3s;
+    cursor: none;
+    appearance: none;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus { border-color: rgba(201,168,76,0.5); }
+  .form-group textarea { height: 120px; resize: none; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-submit {
+    width: 100%;
+    padding: 16px;
+    background: var(--gold);
+    color: var(--black);
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: none;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .form-submit:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark);
+    border-top: 1px solid rgba(201,168,76,0.1);
+    padding: 60px 60px 40px;
+  }
+  .footer-inner {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 50px;
+  }
+  .footer-brand .logo { font-size: 32px; display: block; margin-bottom: 16px; text-decoration: none; }
+  .footer-brand p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: rgba(240,234,216,0.5);
+    max-width: 280px;
+    line-height: 1.7;
+  }
+  .footer-social { display: flex; gap: 12px; margin-top: 28px; }
+  .social-link {
+    width: 38px; height: 38px;
+    border: 1px solid rgba(201,168,76,0.25);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--grey);
+    text-decoration: none;
+    font-size: 14px;
+    transition: border-color 0.3s, color 0.3s, background 0.3s;
+  }
+  .social-link:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.08); }
+  .footer-col h4 {
+    font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 24px; font-weight: 500;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .footer-col ul a {
+    color: var(--grey); text-decoration: none;
+    font-size: 13px;
+    transition: color 0.3s;
+  }
+  .footer-col ul a:hover { color: var(--cream); }
+  .footer-bottom {
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-copy {
+    font-size: 11px; color: rgba(122,122,122,0.6);
+    letter-spacing: 1px;
+  }
+  .footer-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: rgba(201,168,76,0.4);
+  }
+
+  /* PRICING */
+  .pricing { background: var(--dark); }
+  .pricing-header { text-align: center; margin-bottom: 60px; }
+  .pricing-header .section-divider { margin: 28px auto; }
+
+  .pricing-tabs {
+    display: flex; justify-content: center; gap: 0;
+    margin-bottom: 56px;
+    width: fit-content;
+    margin-left: auto; margin-right: auto;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid rgba(201,168,76,0.4);
+  }
+  .ptab {
+    padding: 16px 44px;
+    background: rgba(201,168,76,0.08); border: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--gold-light);
+    cursor: none; transition: color 0.3s, background 0.3s;
+    font-weight: 500;
+  }
+  .ptab + .ptab { border-left: 1px solid rgba(201,168,76,0.4); }
+  .ptab.active { color: var(--black); background: var(--gold); }
+  .ptab:not(.active):hover { background: rgba(201,168,76,0.18); color: var(--white); }
+
+  .pricing-panel { display: none !important; }
+  .pricing-panel.active { display: block !important; }
+
+  /* MENSAIS */
+  .pricing-mensais {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    align-items: start;
+  }
+  .plan-card {
+    background: var(--black);
+    border: 1px solid rgba(201,168,76,0.12);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.4s, transform 0.4s;
+  }
+  .plan-card:hover { border-color: rgba(201,168,76,0.45); transform: translateY(-6px); }
+  .plan-card.featured {
+    border-color: rgba(201,168,76,0.5);
+    transform: translateY(-10px);
+  }
+  .plan-card.featured:hover { transform: translateY(-16px); }
+  .plan-badge {
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    background: #c0392b;
+    color: #fff;
+    font-size: 8px; letter-spacing: 3px; text-transform: uppercase;
+    padding: 5px 18px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .plan-header {
+    background: var(--gold);
+    padding: 24px 28px 20px;
+    text-align: center;
+  }
+  .plan-card.featured .plan-header { padding-top: 32px; }
+  .plan-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px; letter-spacing: 3px;
+    color: var(--black);
+  }
+  .plan-body { padding: 28px; }
+  .plan-includes {
+    font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); font-weight: 500; margin-bottom: 18px;
+    font-style: italic;
+  }
+  .plan-features { list-style: none; display: flex; flex-direction: column; gap: 11px; margin-bottom: 28px; }
+  .plan-features li {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 13px; color: rgba(240,234,216,0.75); line-height: 1.4;
+  }
+  .plan-features li::before {
+    content: '✦';
+    color: var(--gold); font-size: 9px; flex-shrink: 0; margin-top: 2px;
+  }
+  .plan-cloud {
+    font-size: 12px; color: var(--grey);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 14px; margin-bottom: 24px;
+    font-style: italic;
+  }
+  .plan-price {
+    text-align: center;
+    padding: 20px 28px;
+    border-top: 1px solid rgba(201,168,76,0.1);
+  }
+  .price-label { font-size: 9px; letter-spacing: 2px; color: var(--grey); text-transform: uppercase; margin-bottom: 4px; }
+  .price-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px; color: var(--gold); line-height: 1;
+  }
+  .price-value .price-prefix { font-size: 20px; vertical-align: top; padding-top: 10px; display: inline-block; }
+  .price-value .price-period { font-size: 16px; color: var(--grey); }
+  .plan-cta {
+    display: block; text-align: center;
+    margin: 0 28px 28px;
+    padding: 13px;
+    background: var(--gold);
+    color: var(--black);
+    font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+    font-weight: 600; text-decoration: none;
+    transition: background 0.3s;
+    font-family: 'Montserrat', sans-serif;
+  }
+  .plan-cta:hover { background: var(--gold-light); }
+  .pricing-drone-note {
+    margin-top: 36px;
+    text-align: center;
+    padding: 18px 28px;
+    border: 1px solid rgba(201,168,76,0.2);
+    background: rgba(201,168,76,0.04);
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+  }
+  .pricing-drone-note span {
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); font-weight: 500;
+  }
+
+  /* AVULSOS */
+  .pricing-avulsos { display: flex; flex-direction: column; gap: 16px; }
+  .avulso-card {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    border: 1px solid rgba(201,168,76,0.12);
+    overflow: hidden;
+    transition: border-color 0.4s, transform 0.3s;
+    background: var(--black);
+  }
+  .avulso-card:hover { border-color: rgba(201,168,76,0.4); transform: translateX(6px); }
+  .avulso-left {
+    background: var(--mid);
+    padding: 28px 24px;
+    display: flex; flex-direction: column; justify-content: center;
+    gap: 8px;
+    border-right: 1px solid rgba(201,168,76,0.12);
+  }
+  .avulso-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px; letter-spacing: 2px; color: var(--white);
+  }
+  .avulso-price-box {
+    background: var(--gold);
+    padding: 8px 14px; display: inline-block;
+    margin-top: 4px;
+  }
+  .avulso-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px; color: var(--black); line-height: 1;
+  }
+  .avulso-price .ap { font-size: 16px; }
+  .avulso-right {
+    padding: 28px 32px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .avulso-features { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .avulso-features li {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; color: rgba(240,234,216,0.75);
+  }
+  .avulso-features li::before {
+    content: '';
+    width: 7px; height: 7px;
+    background: var(--gold);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    flex-shrink: 0;
+  }
+  .avulso-cta-wrap { margin-top: 40px; text-align: center; }
+  .avulso-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-style: italic;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 28px;
+  }
+  .avulso-headline em { color: var(--gold); font-style: normal; }
+
+  @media (max-width: 900px) {
+    .pricing-mensais { grid-template-columns: 1fr; }
+    .plan-card.featured { transform: translateY(0); }
+    .avulso-card { grid-template-columns: 1fr; }
+    .avulso-left { border-right: none; border-bottom: 1px solid rgba(201,168,76,0.12); }
+    .pricing-tabs { width: 100%; }
+    .ptab { flex: 1; text-align: center; padding: 12px 16px; }
+  }
+
+  /* FADE IN */
+  .fade-in {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    nav.scrolled { padding: 14px 24px; }
+    .nav-links { display: none; }
+    section { padding: 80px 24px; }
+    .about { grid-template-columns: 1fr; }
+    .about-visual { height: 300px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .portfolio-grid {
+      grid-template-columns: 1fr 1fr;
+      grid-auto-rows: 200px;
+    }
+    .portfolio-item { grid-column: span 1 !important; grid-row: span 1 !important; }
+    .process-steps { flex-direction: column; }
+    .process-steps::before { display: none; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .contact-inner { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 40px; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    body { cursor: auto; }
+    .cursor, .cursor-ring { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="logo">NOIR<span>.</span>FILMES</a>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#portfolio">Portfólio</a></li>
+    <li><a href="#processo">Processo</a></li>
+    <li><a href="#valores">Valores</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+  <div class="hero-vignette"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Produtora Audiovisual · Itaperuna, RJ</p>
+    <h1 class="hero-title">NOIR<br><span class="gold-word">FILMES</span></h1>
+    <p class="hero-subtitle">Cada momento merece ser eterno</p>
+    <div class="hero-cta">
+      <a href="#portfolio" class="btn-primary">Ver Portfólio</a>
+      <a href="#contato" class="btn-outline">Solicitar Orçamento</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Rolar</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="sobre">
+  <div class="about-visual fade-in">
+    <div class="about-frame">
+      <div class="film-strip">
+        <div class="film-row">NOIR FILMES</div>
+        <div class="film-row">WEDDING · EVENTS · COMMERCIAL</div>
+        <div class="film-row">ITAPERUNA · RJ · BRASIL</div>
+        <div class="film-row">NOIR FILMES</div>
+        <div class="film-row">AUDIOVISUAL PRODUCTION</div>
+      </div>
+    </div>
+    <div class="about-corner tl"></div>
+    <div class="about-corner tr"></div>
+    <div class="about-corner bl"></div>
+    <div class="about-corner br"></div>
+  </div>
+  <div class="fade-in" style="transition-delay:0.2s">
+    <p class="section-label">Sobre nós</p>
+    <h2 class="section-title">ARTE QUE<br>EMOCIONA</h2>
+    <div class="section-divider"></div>
+    <p class="section-text">
+      Somos uma produtora audiovisual especializada em transformar momentos únicos em filmes que ficam para sempre. Casamentos, eventos, campanhas comerciais — capturamos a essência de cada história com olhar cinematográfico e alma artística.
+    </p>
+    <p class="section-text" style="margin-top:16px">
+      Com anos de experiência e equipamentos de ponta, entregamos mais do que vídeos: entregamos emoção em movimento.
+    </p>
+    <div class="about-stats">
+      <div class="stat">
+        <div class="stat-number">300<span style="color:var(--gold);font-size:24px">+</span></div>
+        <div class="stat-label">Casamentos filmados</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">5<span style="color:var(--gold);font-size:24px">+</span></div>
+        <div class="stat-label">Anos de experiência</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">100<span style="color:var(--gold);font-size:16px">%</span></div>
+        <div class="stat-label">Clientes satisfeitos</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">50<span style="color:var(--gold);font-size:24px">+</span></div>
+        <div class="stat-label">Eventos corporativos</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="servicos">
+  <div class="services-header fade-in">
+    <p class="section-label">O que fazemos</p>
+    <h2 class="section-title">NOSSOS SERVIÇOS</h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="services-grid">
+    <div class="service-card fade-in">
+      <span class="service-number">01</span>
+      <span class="service-icon">💍</span>
+      <h3 class="service-title">Filme de Casamento</h3>
+      <p class="service-desc">Filmes cinematográficos que capturam cada detalhe, emoção e memória do dia mais especial da sua vida.</p>
+      <div class="service-line"></div>
+    </div>
+    <div class="service-card fade-in" style="transition-delay:0.1s">
+      <span class="service-number">02</span>
+      <span class="service-icon">🎉</span>
+      <h3 class="service-title">Eventos & Festas</h3>
+      <p class="service-desc">Formaturas, aniversários, confraternizações e celebrações captadas com toda a energia e alegria do momento.</p>
+      <div class="service-line"></div>
+    </div>
+    <div class="service-card fade-in" style="transition-delay:0.2s">
+      <span class="service-number">03</span>
+      <span class="service-icon">🎬</span>
+      <h3 class="service-title">Vídeo Comercial</h3>
+      <p class="service-desc">Conteúdo audiovisual profissional para marcas, empresas e redes sociais que geram resultado e engajamento.</p>
+      <div class="service-line"></div>
+    </div>
+    <div class="service-card fade-in" style="transition-delay:0.1s">
+      <span class="service-number">04</span>
+      <span class="service-icon">📸</span>
+      <h3 class="service-title">Ensaio Fotográfico</h3>
+      <p class="service-desc">Sessões de fotos artísticas e naturais para casais, famílias, gestantes e formandos em locações especiais.</p>
+      <div class="service-line"></div>
+    </div>
+    <div class="service-card fade-in" style="transition-delay:0.2s">
+      <span class="service-number">05</span>
+      <span class="service-icon">✈️</span>
+      <h3 class="service-title">Filmagem com Drone</h3>
+      <p class="service-desc">Imagens aéreas deslumbrantes que adicionam dimensão épica e perspectiva única a cada produção.</p>
+      <div class="service-line"></div>
+    </div>
+    <div class="service-card fade-in" style="transition-delay:0.3s">
+      <span class="service-number">06</span>
+      <span class="service-icon">🎵</span>
+      <h3 class="service-title">Clipe Musical</h3>
+      <p class="service-desc">Produções criativas e conceituais para artistas e bandas que querem elevar sua presença visual e artística.</p>
+      <div class="service-line"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="portfolio" id="portfolio">
+  <div class="portfolio-header fade-in">
+    <p class="section-label">Nossos trabalhos</p>
+    <h2 class="section-title">PORTFÓLIO</h2>
+    <div class="section-divider"></div>
+    <div class="portfolio-filter">
+      <button class="filter-btn active">Todos</button>
+      <button class="filter-btn">Casamentos</button>
+      <button class="filter-btn">Eventos</button>
+      <button class="filter-btn">Comercial</button>
+    </div>
+  </div>
+  <div class="portfolio-grid fade-in">
+    <div class="portfolio-item">
+      <div class="portfolio-bg portfolio-gradient-1">
+        <div class="portfolio-icon-bg">NOIR</div>
+      </div>
+      <div class="portfolio-play"></div>
+      <div class="portfolio-overlay">
+        <p class="portfolio-tag">Casamento</p>
+        <p class="portfolio-name">Ana & Rafael — Casamento em Itaperuna</p>
+      </div>
+    </div>
+    <div class="portfolio-item">
+      <div class="portfolio-bg portfolio-gradient-2">
+        <div class="portfolio-icon-bg">EVT</div>
+      </div>
+      <div class="portfolio-play"></div>
+      <div class="portfolio-overlay">
+        <p class="portfolio-tag">Evento</p>
+        <p class="portfolio-name">Formatura Medicina 2024</p>
+      </div>
+    </div>
+    <div class="portfolio-item">
+      <div class="portfolio-bg portfolio-gradient-3">
+        <div class="portfolio-icon-bg">COM</div>
+      </div>
+      <div class="portfolio-play"></div>
+      <div class="portfolio-overlay">
+        <p class="portfolio-tag">Comercial</p>
+        <p class="portfolio-name">Campanha Verão 2024</p>
+      </div>
+    </div>
+    <div class="portfolio-item">
+      <div class="portfolio-bg portfolio-gradient-4">
+        <div class="portfolio-icon-bg">DRN</div>
+      </div>
+      <div class="portfolio-play"></div>
+      <div class="portfolio-overlay">
+        <p class="portfolio-tag">Drone</p>
+        <p class="portfolio-name">Vista Aérea — Serra Fluminense</p>
+      </div>
+    </div>
+    <div class="portfolio-item">
+      <div class="portfolio-bg portfolio-gradient-5">
+        <div class="portfolio-icon-bg">FOT</div>
+      </div>
+      <div class="portfolio-play"></div>
+      <div class="portfolio-overlay">
+        <p class="portfolio-tag">Ensaio</p>
+        <p class="portfolio-name">Ensaio Casal — Pôr do Sol</p>
+      </div>
+    </div>
+    <div class="portfolio-item">
+      <div class="portfolio-bg portfolio-gradient-6">
+        <div class="portfolio-icon-bg">WED</div>
+      </div>
+      <div class="portfolio-play"></div>
+      <div class="portfolio-overlay">
+        <p class="portfolio-tag">Casamento</p>
+        <p class="portfolio-name">Luísa & Pedro — Cerimônia ao Ar Livre</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="processo">
+  <div class="process-header fade-in">
+    <p class="section-label">Como trabalhamos</p>
+    <h2 class="section-title">NOSSO PROCESSO</h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="process-steps fade-in">
+    <div class="process-step">
+      <div class="step-dot">01</div>
+      <h3 class="step-title">Briefing</h3>
+      <p class="step-desc">Conversamos e entendemos cada detalhe da sua história e expectativas</p>
+    </div>
+    <div class="process-step">
+      <div class="step-dot">02</div>
+      <h3 class="step-title">Planejamento</h3>
+      <p class="step-desc">Criamos um roteiro detalhado para capturar todos os momentos especiais</p>
+    </div>
+    <div class="process-step">
+      <div class="step-dot">03</div>
+      <h3 class="step-title">Produção</h3>
+      <p class="step-desc">Filmagem e fotografia com equipe experiente e equipamentos profissionais</p>
+    </div>
+    <div class="process-step">
+      <div class="step-dot">04</div>
+      <h3 class="step-title">Edição</h3>
+      <p class="step-desc">Pós-produção cinematográfica com colorização exclusiva e trilha sonora</p>
+    </div>
+    <div class="process-step">
+      <div class="step-dot">05</div>
+      <h3 class="step-title">Entrega</h3>
+      <p class="step-desc">Arquivo em alta resolução e link exclusivo para você compartilhar</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="valores">
+  <div class="pricing-header fade-in">
+    <p class="section-label">Invista no seu conteúdo</p>
+    <h2 class="section-title">NOSSOS VALORES</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <!-- TABS -->
+  <div class="pricing-tabs fade-in">
+    <button class="ptab active" onclick="switchTab('mensais')">Pacotes Mensais</button>
+    <button class="ptab" onclick="switchTab('avulsos')">Vídeos Avulsos</button>
+  </div>
+
+  <!-- PANEL: MENSAIS -->
+  <div class="pricing-panel active" id="panel-mensais">
+    <div class="pricing-mensais fade-in">
+
+      <!-- START -->
+      <div class="plan-card">
+        <div class="plan-header">
+          <p class="plan-name">START</p>
+        </div>
+        <div class="plan-body">
+          <p class="plan-includes">O que está incluso?</p>
+          <ul class="plan-features">
+            <li>Qualidade 4K</li>
+            <li>05 vídeos mensais</li>
+            <li>Roteirização</li>
+            <li>Gravação com câmera profissional</li>
+          </ul>
+          <p class="plan-cloud">☁ Arquivos armazenados em nuvem</p>
+        </div>
+        <div class="plan-price">
+          <p class="price-label">Investimento mensal</p>
+          <div class="price-value">
+            <span class="price-prefix">R$</span>467<span style="font-size:28px">,50</span><span class="price-period">/mês</span>
+          </div>
+        </div>
+        <a href="#contato" class="plan-cta">Contratar agora</a>
+      </div>
+
+      <!-- BUSINESS -->
+      <div class="plan-card featured">
+        <div class="plan-badge">Mais Popular</div>
+        <div class="plan-header">
+          <p class="plan-name">BUSINESS</p>
+        </div>
+        <div class="plan-body">
+          <p class="plan-includes">O que está incluso?</p>
+          <ul class="plan-features">
+            <li>Qualidade 4K</li>
+            <li>08 vídeos mensais</li>
+            <li>Roteirização</li>
+            <li>Gravação com câmera profissional</li>
+          </ul>
+          <p class="plan-cloud">☁ Arquivos armazenados em nuvem</p>
+        </div>
+        <div class="plan-price">
+          <p class="price-label">Investimento mensal</p>
+          <div class="price-value">
+            <span class="price-prefix">R$</span>722<span style="font-size:28px">,50</span><span class="price-period">/mês</span>
+          </div>
+        </div>
+        <a href="#contato" class="plan-cta">Contratar agora</a>
+      </div>
+
+      <!-- PREMIUM -->
+      <div class="plan-card">
+        <div class="plan-header">
+          <p class="plan-name">PREMIUM</p>
+        </div>
+        <div class="plan-body">
+          <p class="plan-includes">O que está incluso?</p>
+          <ul class="plan-features">
+            <li>Qualidade 4K</li>
+            <li>10 vídeos mensais</li>
+            <li>Roteirização</li>
+            <li>Gravação com câmera profissional</li>
+          </ul>
+          <p class="plan-cloud">☁ Arquivos armazenados em nuvem</p>
+        </div>
+        <div class="plan-price">
+          <p class="price-label">Investimento mensal</p>
+          <div class="price-value">
+            <span class="price-prefix">R$</span>1.275<span style="font-size:28px">,00</span><span class="price-period">/mês</span>
+          </div>
+        </div>
+        <a href="#contato" class="plan-cta">Contratar agora</a>
+      </div>
+    </div>
+
+    <div class="pricing-drone-note fade-in">
+      <span>✈</span>
+      <span>Todos os pacotes contam com filmagem de drone disponível</span>
+    </div>
+  </div>
+
+  <!-- PANEL: AVULSOS -->
+  <div class="pricing-panel" id="panel-avulsos">
+    <div class="pricing-avulsos fade-in">
+
+      <!-- BÁSICO -->
+      <div class="avulso-card">
+        <div class="avulso-left">
+          <p class="avulso-name">BÁSICO</p>
+          <div class="avulso-price-box">
+            <p class="avulso-price"><span class="ap">R$</span>467<span class="ap">,42</span></p>
+          </div>
+        </div>
+        <div class="avulso-right">
+          <ul class="avulso-features">
+            <li>3 vídeos avulsos</li>
+            <li>Filmagem em 4K</li>
+            <li>Roteirização e Produção</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- INTERMEDIÁRIO -->
+      <div class="avulso-card">
+        <div class="avulso-left">
+          <p class="avulso-name">INTERMEDIÁRIO</p>
+          <div class="avulso-price-box">
+            <p class="avulso-price"><span class="ap">R$</span>637<span class="ap">,49</span></p>
+          </div>
+        </div>
+        <div class="avulso-right">
+          <ul class="avulso-features">
+            <li>5 vídeos avulsos</li>
+            <li>Filmagem em 4K</li>
+            <li>Roteirização e Produção</li>
+            <li>Gravação com drone</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AVANÇADO -->
+      <div class="avulso-card">
+        <div class="avulso-left">
+          <p class="avulso-name">AVANÇADO</p>
+          <div class="avulso-price-box">
+            <p class="avulso-price"><span class="ap">R$</span>977<span class="ap">,42</span></p>
+          </div>
+        </div>
+        <div class="avulso-right">
+          <ul class="avulso-features">
+            <li>8 vídeos avulsos</li>
+            <li>Filmagem em 4K</li>
+            <li>Roteirização e Produção</li>
+            <li>Gravação com drone</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="avulso-cta-wrap fade-in">
+      <p class="avulso-headline">Clique aqui, contrate<br>e agende sua <em>gravação</em></p>
+      <a href="#contato" class="btn-primary" style="display:inline-block">Agendar gravação</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="testimonials-header fade-in">
+    <p class="section-label">O que dizem</p>
+    <h2 class="section-title">DEPOIMENTOS</h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card fade-in">
+      <div class="testimonial-stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <p class="testimonial-text">O filme do nosso casamento ficou absolutamente perfeito. Cada detalhe, cada olhar, cada lágrima foi capturada de forma tão delicada que nos emocionamos toda vez que assistimos.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">AC</div>
+        <div>
+          <p class="author-name">Ana & Carlos Silva</p>
+          <p class="author-event">Casamento · Julho 2024</p>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card fade-in" style="transition-delay:0.1s">
+      <div class="testimonial-stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <p class="testimonial-text">Profissionalismo impecável do começo ao fim. A equipe foi super atenciosa, discreta durante a cerimônia e entregou muito além do esperado. Super recomendo!</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">JM</div>
+        <div>
+          <p class="author-name">Juliana Moreira</p>
+          <p class="author-event">Evento Corporativo · Maio 2024</p>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card fade-in" style="transition-delay:0.2s">
+      <div class="testimonial-stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <p class="testimonial-text">As imagens aéreas com drone foram um diferencial incrível! O vídeo comercial que fizeram para nossa loja triplicou nosso engajamento no Instagram. Trabalho de altíssimo nível.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">RF</div>
+        <div>
+          <p class="author-name">Roberto Faria</p>
+          <p class="author-event">Vídeo Comercial · Março 2024</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contato">
+  <div class="contact-inner">
+    <div class="fade-in">
+      <p class="section-label">Fale conosco</p>
+      <h2 class="section-title">VAMOS<br>CRIAR JUNTOS</h2>
+      <div class="section-divider"></div>
+      <p class="section-text">Sua história merece ser contada de forma única. Entre em contato e vamos conversar sobre como transformar seus momentos em arte cinematográfica.</p>
+      <div class="contact-details">
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <p class="contact-item-label">Localização</p>
+            <p class="contact-item-value">Itaperuna, Rio de Janeiro — Brasil</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📱</div>
+          <div>
+            <p class="contact-item-label">WhatsApp</p>
+            <p class="contact-item-value">(22) 9 9999-9999</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📧</div>
+          <div>
+            <p class="contact-item-label">E-mail</p>
+            <p class="contact-item-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f3909c9d8792879cb39d9c9a81959a9f9e9680dd909c9edd9181">[email&#160;protected]</a></p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📷</div>
+          <div>
+            <p class="contact-item-label">Instagram</p>
+            <p class="contact-item-value">@noirfilmes</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form fade-in" style="transition-delay:0.2s">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Seu nome</label>
+          <input type="text" placeholder="Maria Silva">
+        </div>
+        <div class="form-group">
+          <label>WhatsApp</label>
+          <input type="tel" placeholder="(22) 9 9999-9999">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>E-mail</label>
+        <input type="email" placeholder="maria@email.com">
+      </div>
+      <div class="form-group">
+        <label>Tipo de serviço</label>
+        <select>
+          <option value="" disabled selected>Selecione um serviço</option>
+          <option>Filme de Casamento</option>
+          <option>Evento & Festa</option>
+          <option>Vídeo Comercial</option>
+          <option>Ensaio Fotográfico</option>
+          <option>Filmagem com Drone</option>
+          <option>Clipe Musical</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Data do evento</label>
+        <input type="text" placeholder="Ex: 15 de março de 2025">
+      </div>
+      <div class="form-group">
+        <label>Sua mensagem</label>
+        <textarea placeholder="Conte um pouco sobre seu evento e o que você espera..."></textarea>
+      </div>
+      <button class="form-submit">Enviar Mensagem</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#" class="logo">NOIR<span style="color:var(--gold)">.</span>FILMES</a>
+      <p>Transformando momentos em memórias eternas através da arte cinematográfica.</p>
+      <div class="footer-social">
+        <a href="#" class="social-link">in</a>
+        <a href="#" class="social-link">ig</a>
+        <a href="#" class="social-link">yt</a>
+        <a href="#" class="social-link">wa</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Serviços</h4>
+      <ul>
+        <li><a href="#">Filme de Casamento</a></li>
+        <li><a href="#">Eventos & Festas</a></li>
+        <li><a href="#">Vídeo Comercial</a></li>
+        <li><a href="#">Ensaio Fotográfico</a></li>
+        <li><a href="#">Filmagem com Drone</a></li>
+        <li><a href="#">Clipe Musical</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Links</h4>
+      <ul>
+        <li><a href="#sobre">Sobre nós</a></li>
+        <li><a href="#portfolio">Portfólio</a></li>
+        <li><a href="#processo">Processo</a></li>
+        <li><a href="#contato">Contato</a></li>
+        <li><a href="#">Orçamento</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 NOIR FILMES. Todos os direitos reservados.</p>
+    <p class="footer-tagline">Cada momento merece ser eterno.</p>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // CURSOR
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  (function animCursor() {
+    rx += (mx - rx) * 0.15;
+    ry += (my - ry) * 0.15;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animCursor);
+  })();
+  document.querySelectorAll('a, button, .service-card, .portfolio-item, .filter-btn').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.classList.add('hover'); ring.classList.add('hover'); });
+    el.addEventListener('mouseleave', () => { cursor.classList.remove('hover'); ring.classList.remove('hover'); });
+  });
+
+  // NAV SCROLL
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // FADE IN
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // PRICING TABS
+  function switchTab(tab) {
+    document.querySelectorAll('.ptab').forEach((b, i) => {
+      b.classList.toggle('active', (tab === 'mensais' && i === 0) || (tab === 'avulsos' && i === 1));
+    });
+    document.querySelectorAll('.pricing-panel').forEach(p => {
+      p.classList.remove('active');
+      p.style.display = 'none';
+    });
+    const active = document.getElementById('panel-' + tab);
+    active.classList.add('active');
+    active.style.display = 'block';
+  }
+  // Init on load
+  switchTab('mensais');
+
+  // FILTER BUTTONS
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  // FORM SUBMIT
+  document.querySelector('.form-submit').addEventListener('click', function() {
+    this.textContent = 'Mensagem Enviada ✓';
+    this.s
